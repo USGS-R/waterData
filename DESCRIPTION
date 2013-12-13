@@ -1,0 +1,21 @@
+Package: waterData
+Version: 1.0.2
+Date: 2013-03-05
+Title: An R Package for Retrieval, Analysis, and Anomaly Calculation of Daily Hydrologic Time Series Data
+Author: Karen R. Ryberg and Aldo V. Vecchia
+Maintainer: Karen R. Ryberg <kryberg@usgs.gov>
+License: Unlimited | file LICENSE  
+Type: Package
+LazyLoad: yes
+Description: This package imports U.S. Geological Survey (USGS) daily hydrologic data from USGS web services, plots the data, addresses some common data problems, and calculates and plots anomalies.    
+Depends: R (>= 2.14.1), lattice, latticeExtra, XML
+Suggests: xtable, maps, mapdata
+URL:  http://pubs.usgs.gov/of/2012/1168/
+Collate:
+    'waterData-package.R'
+    'importDVs.R'
+    'fillMiss.R'
+    'summaryStats.R'
+    'compAnom.R'
+    'plotAnoms.R'
+
