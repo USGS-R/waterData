@@ -12,8 +12,8 @@
 #' \tabular{ll}{
 #' Package: \tab waterData\cr
 #' Type: \tab Package\cr
-#' Version: \tab 1.0.2\cr
-#' Date: \tab 2013-03-05\cr
+#' Version: \tab 1.0.3\cr
+#' Date: \tab 2013-12-13\cr
 #' License: \tab Unlimited | file LICENSE \cr
 #' LazyLoad: \tab yes\cr
 #' }

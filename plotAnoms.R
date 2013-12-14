@@ -55,7 +55,7 @@ plotAnoms<- function(data, ...) {
       mtext(paste("Standard deviation is ", stfa.sd, sep=""), side=3, line=-1, 
             cex=0.5)
       plttxt<-paste("Site", as.character(data[[1]]$staid[1]),
-                    "days", "MTFA is", data[[2]], "days", "STFA is", data[[3]],
+                    "MTFA is", data[[2]], "days", "STFA is", data[[3]],
                     sep=" ")
       mtext(plttxt, outer=TRUE, side=3, cex=.8)
     }
@@ -89,8 +89,8 @@ plotAnoms<- function(data, ...) {
       stfa.sd<-round(sd(data[[1]]$dailyanom, na.rm=TRUE), digits=3)
       mtext(paste("Standard deviation is ", stfa.sd, sep=""), side=3, line=-1, 
             cex=0.5)
-      plttxt<-paste("Site", as.character(data[[1]]$staid[1]), "Ten-year, 
-                    five-year, one-year, seasonal, and daily anomalies",
+      plttxt<-paste("Site", as.character(data[[1]]$staid[1]), 
+                    "Ten-year, five-year, one-year, seasonal, and daily anomalies",
                     sep=" ")
       mtext(plttxt, outer=TRUE, side=3, cex=.8)
     }
@@ -171,8 +171,8 @@ plotAnoms<- function(data, ...) {
       stfa.sd<-round(sd(data$dailyanom, na.rm=TRUE), digits=3)
       mtext(paste("Standard deviation is ", stfa.sd, sep=""), side=3, line=-1, 
             cex=0.5)
-      plttxt<-paste("Site", as.character(data$staid[1]), "Ten-year, 
-                  five-year, one-year, seasonal, and daily anomalies",
+      plttxt<-paste("Site", as.character(data$staid[1]), 
+                    "Ten-year, five-year, one-year, seasonal, and daily anomalies",
                   sep=" ")
       mtext(plttxt, outer=TRUE, side=3, cex=.8)
     }
