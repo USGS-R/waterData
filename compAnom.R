@@ -90,24 +90,29 @@ compAnom <- function(dataset,which=1) {
     mt<-30
     st<-1
     n1 <- length(dataset[,1])
-    qdf <- dataset[,c("staid","dates","val")]
-    qlog10 <- log10(dataset$val)
-    xmean <- mean(qlog10,na.rm=TRUE)  
-    xlt <- rep(NA,n1)
-    for (i in (lt:n1)) { 
-      xlt[i] <- mean(qlog10[(i - (lt - 1)):i],na.rm=FALSE)
-    }
-    ltfa <- xlt-xmean
-    xmt <- rep(NA,n1)
-    for (i in (mt:n1)) { 
-      xmt[i] <- mean(qlog10[(i - (mt - 1)):i],na.rm=FALSE)
-    }
-    mtfa <- xmt-xlt
-    # short term anomaly is based on 1 day
-    stfa <- qlog10 - xmt
+    if ( n1 >= lt ) {
+      qdf <- dataset[,c("staid","dates","val")]
+      qlog10 <- log10(dataset$val)
+      xmean <- mean(qlog10,na.rm=TRUE)  
+      xlt <- rep(NA,n1)
+      for (i in (lt:n1)) { 
+        xlt[i] <- mean(qlog10[(i - (lt - 1)):i],na.rm=FALSE)
+      }
+      ltfa <- xlt-xmean
+      xmt <- rep(NA,n1)
+      for (i in (mt:n1)) { 
+        xmt[i] <- mean(qlog10[(i - (mt - 1)):i],na.rm=FALSE)
+      }
+      mtfa <- xmt-xlt
+      # short term anomaly is based on 1 day
+      stfa <- qlog10 - xmt
   
-    qdf <- cbind(qdf,ltfa,mtfa,stfa)
-    list(qdf, lt,mt,st)
+      qdf <- cbind(qdf,ltfa,mtfa,stfa)
+      list(qdf, lt,mt,st)
+    } else {
+      stop("Dataset not long enough to calculate 1-year anomaly, 
+           try which=2 or which=3")
+    }
   }
   else if (which==2) {
     lt<-100
@@ -158,40 +163,44 @@ compAnom <- function(dataset,which=1) {
     mt<-90
     st<-1
     n1 <- length(dataset[,1])
-    qdf <- dataset[,c("staid","dates","val")]
-    qlog10 <- log10(dataset$val)
-    xmean <- mean(qlog10,na.rm=TRUE)
-    xta <- rep(NA,n1)
-    for (i in (ta:n1)) { 
-      xta[i] <- mean(qlog10[(i - (ta - 1)):i],na.rm=FALSE)
-    }
-    tfa <- xta-xmean
+    if ( n1 >= ta ) {
+      qdf <- dataset[,c("staid","dates","val")]
+      qlog10 <- log10(dataset$val)
+      xmean <- mean(qlog10,na.rm=TRUE)
+      xta <- rep(NA,n1)
+      for (i in (ta:n1)) { 
+        xta[i] <- mean(qlog10[(i - (ta - 1)):i],na.rm=FALSE)
+      }
+      tfa <- xta-xmean
     
-    xfa <- rep(NA,n1)
-    for (i in (fa:n1)) { 
-      xfa[i] <- mean(qlog10[(i - (fa - 1)):i],na.rm=FALSE)
-    }    
-    ffa <- xfa-xta
+      xfa <- rep(NA,n1)
+      for (i in (fa:n1)) { 
+        xfa[i] <- mean(qlog10[(i - (fa - 1)):i],na.rm=FALSE)
+      }    
+      ffa <- xfa-xta
     
-    xlt <- rep(NA,n1)
-    for (i in (lt:n1)) { 
-      xlt[i] <- mean(qlog10[(i - (lt - 1)):i], na.rm=FALSE)
-    }    
-    ltfa <- xlt-xfa
+      xlt <- rep(NA,n1)
+      for (i in (lt:n1)) { 
+        xlt[i] <- mean(qlog10[(i - (lt - 1)):i], na.rm=FALSE)
+      }    
+      ltfa <- xlt-xfa
     
-    xmt <- rep(NA,n1)
-    for (i in (mt:n1)) { 
-      xmt[i] <- mean(qlog10[(i - (mt - 1)):i],na.rm=FALSE)
-    }
-    mtfa <- xmt-xlt
+      xmt <- rep(NA,n1)
+      for (i in (mt:n1)) { 
+        xmt[i] <- mean(qlog10[(i - (mt - 1)):i],na.rm=FALSE)
+      }
+      mtfa <- xmt-xlt
     
-    # short term anomaly is based on 1 day
-    stfa <- qlog10 - xmt
+      # short term anomaly is based on 1 day
+      stfa <- qlog10 - xmt
   
-    qdf <- cbind(qdf,tfa,ffa,ltfa,mtfa,stfa)
-    dimnames(qdf)[[2]] <- c("staid", "dates", "val", "tenyranom", "fiveyranom",
+      qdf <- cbind(qdf,tfa,ffa,ltfa,mtfa,stfa)
+      dimnames(qdf)[[2]] <- c("staid", "dates", "val", "tenyranom", "fiveyranom",
                             "annualanom","seasanom","dailyanom")
-    list(qdf, ta, fa, lt, mt, st)
+      list(qdf, ta, fa, lt, mt, st)
+    } else { 
+    stop("Dataset not long enough to calculate 10-year anomaly, try which=1")
+    }
   }
   else {
     stop("which must be a numeric value 1, 2, 3, or 4")

@@ -22,6 +22,7 @@
 \date{\today}                                % Activate to display a given date or no date
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \maketitle
 \tableofcontents
 
@@ -313,8 +314,12 @@ The fourth possible set of anomalies requires long-term data sets with few, if a
 
 \small
 <<results=tex,echo=TRUE>>=
-q05054000LT<-importDVs("05054000", code="00060", stat="00003", sdate="1949-10-01", 
-                                                  edate="2010-9-30")
+# Import not run during vignette building because it may time out
+# over a slow connection, but this is the code to get the original data
+# q05054000LT<-importDVs("05054000", code="00060", stat="00003", sdate="1949-10-01", 
+#                                                  edate="2010-9-30")
+# data are available in example data set
+data(exampleWaterData)
 my.xtable<-xtable(summaryStats(q05054000LT, staid="05054000"),
                                   cap="Summary statistics for daily streamflow series.")
 print.xtable(my.xtable, size=c("footnotesize"))
