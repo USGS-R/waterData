@@ -7,6 +7,7 @@ Added a more descriptive error message for long-term anomaly
 calculation attempt on datasets that are too short.
 
 Version 1.0.3
+*************
 Fixed incomplete plot title in plotAnoms when which parameter equals 4.
 Added NEWS file.
 Migrated vignette to 'vignettes' directory.
