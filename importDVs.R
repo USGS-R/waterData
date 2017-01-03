@@ -116,23 +116,6 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
   # modified from importWaterML2 function of package dataRetrieval version 2.6.3
   asDateTime <- TRUE
   raw <- FALSE
-  if (class(url) == "character" && file.exists(url)) {
-    returnedDoc <- read_xml(url)
-  } else if(class(url) == 'raw') {
-    returnedDoc <- read_xml(url)
-    raw <- TRUE
-  } else {
-    returnedDoc <- xml_root(getWebServiceData(url, encoding = 'gzip'))
-  }
-  
-  timeSeries <- xml_find_all(returnedDoc, "//wml2:Collection") #each parameter/site combo
-  
-  if (0 == length(timeSeries)) {
-    df <- data.frame()
-    if (!raw) {
-      attr(df, "url") <-   # modified from importWaterML2 function of package dataRetrieval version 2.6.3
-  asDateTime <- TRUE
-  raw <- FALSE
   if (class(obs_url) == "character" && file.exists(obs_url)) {
     returnedDoc <- read_xml(obs_url)
   } else if(class(obs_url) == 'raw') {
@@ -142,38 +125,12 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
     returnedDoc <- xml_root(getWebServiceData(obs_url, encoding = 'gzip'))
   }
   
-  timeSeries <- xml_find_all(returnedDoc, "//wml2:Collection") #each parameter/site combo
+  timeSeries <- xml_find_all(returnedDoc, "//wml2:Collection") # each parameter/site combo
   
   if (0 == length(timeSeries)) {
     df <- data.frame()
     if (!raw) {
       attr(df, "url") <- obs_url
-    }
-    return(df)
-  }
-  
-  mergedDF <- NULL
-  
-    TVP <- xml_find_all(timeSeries, ".//wml2:MeasurementTVP") #time-value pairs
-    time <- xml_text(xml_find_all(TVP, ".//wml2:time"))
-
-    if (asDateTime) {
-      time <- parse_date_time(time, c("%Y","%Y-%m-%d","%Y-%m-%dT%H:%M","%Y-%m-%dT%H:%M:%S",
-                                      "%Y-%m-%dT%H:%M:%OS","%Y-%m-%dT%H:%M:%OS%z"), 
-                              exact = TRUE)
-    }
-    values <- as.numeric(xml_text(xml_find_all(TVP, ".//wml2:value")))
-
-    idents <- xml_text(xml_find_all(t, ".//gml:identifier"))
-    idents <- strsplit(idents, "[.]")[[1]][2]
-    useIdents <- rep(idents, length(values))
-
-    tvpQuals <- xml_text(xml_find_first(TVP, ".//swe:value"))
-
-    df <- cbind.data.frame(staid = useIdents, val = values, dates = time, 
-                           qualcode = tvpQuals, stringsAsFactors = FALSE)
-
-    return(df)url
     }
     return(df)
   }
@@ -188,6 +145,7 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
                                     "%Y-%m-%dT%H:%M:%OS","%Y-%m-%dT%H:%M:%OS%z"), 
                             exact = TRUE)
   }
+  
   values <- as.numeric(xml_text(xml_find_all(TVP, ".//wml2:value")))
 
   idents <- xml_text(xml_find_all(t, ".//gml:identifier"))
@@ -195,14 +153,14 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
   useIdents <- rep(idents, length(values))
 
   tvpQuals <- xml_text(xml_find_first(TVP, ".//swe:value"))
-  
+
   df <- cbind.data.frame(staid = useIdents, val = values, dates = time, 
-                         qualcode = tvpQuals, stringsAsFactors = FALSE)
+                           qualcode = tvpQuals, stringsAsFactors = FALSE)
 
   return(df)
 }
 
-#' Function to plot hydrologic times series.  
+    #' Function to plot hydrologic times series.  
 #' Will plot more than one site at a time.
 #'
 #' @name plotParam
