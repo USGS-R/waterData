@@ -11,7 +11,7 @@ Description: This package imports U.S. Geological Survey (USGS) daily hydrologic
 Depends: R (>= 3.3.0)
 Imports: lattice, latticeExtra, XML
 Suggests: xtable, maps, mapdata
-URL:  http://pubs.usgs.gov/of/2012/1168/
+URL:  https://pubs.usgs.gov/of/2012/1168/
 Collate:
     'waterData-package.R'
     'importDVs.R'
