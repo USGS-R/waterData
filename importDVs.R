@@ -1,7 +1,7 @@
 #' Function to import daily hydrologic time series 
 #' data given a USGS streamgage identification number.
 #'
-#' This function will import data from a WaterML1 service (current USGS 
+#' This function will import data from a WaterML2 service (current USGS 
 #' hydrological data standard).  It will retrieve daily streamflow and 
 #' continuous water-quality data from the USGS Daily Values Site Web 
 #' Service \url{https://waterservices.usgs.gov/rest/DV-Service.html}
