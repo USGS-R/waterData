@@ -103,7 +103,7 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
                       edate=as.Date(Sys.Date(), format="%Y-%m-%d")) {
   if (is.character(staid) == FALSE ) stop("staid needs to have quotes around it")
   if (nchar(staid) < 8) stop ("staid must be at least 8 characters")
-  base_url <- "http://waterservices.usgs.gov/nwis/dv?"
+  base_url <- "https://waterservices.usgs.gov/nwis/dv?"
   url <- paste(base_url, "site=", staid, "&parameterCd=", code, "&statCd=", 
                stat, sep = "")
   url <- paste(url, "&startDt=", sdate, "&endDt=", edate, sep="")
@@ -393,7 +393,7 @@ tellMeURL <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
                       edate=as.Date(Sys.Date(), format="%Y-%m-%d")) {
   if (is.character(staid) == FALSE ) stop("staid needs to have quotes around it")
   if (nchar(staid) < 8) stop ("staid must be at least 8 characters")
-  base_url <- "http://waterservices.usgs.gov/nwis/dv?"
+  base_url <- "https://waterservices.usgs.gov/nwis/dv?"
   url <- paste(base_url, "site=", staid, "&parameterCd=", code, "&statCd=", 
                stat, sep = "")
   url <- paste(url, "&startDt=", sdate, sep="")
@@ -460,7 +460,7 @@ siteInfo<-function(staid) {
     if (is.character(staid[i]) == FALSE ) stop("staid needs to have quotes 
                                                around it")
     if (nchar(staid[i]) < 8) stop ("staid must be at least 8 characters")
-    base_url <-"http://waterservices.usgs.gov/nwis/site?format=mapper&sites="
+    base_url <-"https://waterservices.usgs.gov/nwis/site?format=mapper&sites="
     url <- paste(base_url,staid[i],
                  "&siteOutput=expanded&seriesCatalogOutput=true&outputDataTypeCd=all", 
                  sep = "")
@@ -529,7 +529,7 @@ siteInfo<-function(staid) {
 tellMeSiteURL <- function(staid) {
 if (is.character(staid) == FALSE ) stop("Station number needs to have quotes around it")
   if (nchar(staid) < 8) stop ("Station number must be at least 8 characters")
-  base_url <-"http://waterservices.usgs.gov/nwis/site?format=mapper&sites="
+  base_url <-"https://waterservices.usgs.gov/nwis/site?format=mapper&sites="
   url <- paste(base_url,staid,
                "&siteOutput=expanded&seriesCatalogOutput=true&outputDataTypeCd=all", 
                sep = "")
