@@ -116,23 +116,6 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
   # modified from importWaterML2 function of package dataRetrieval version 2.6.3
   asDateTime <- TRUE
   raw <- FALSE
-  if (class(url) == "character" && file.exists(url)) {
-    returnedDoc <- read_xml(url)
-  } else if(class(url) == 'raw') {
-    returnedDoc <- read_xml(url)
-    raw <- TRUE
-  } else {
-    returnedDoc <- xml_root(getWebServiceData(url, encoding = 'gzip'))
-  }
-  
-  timeSeries <- xml_find_all(returnedDoc, "//wml2:Collection") #each parameter/site combo
-  
-  if (0 == length(timeSeries)) {
-    df <- data.frame()
-    if (!raw) {
-      attr(df, "url") <-   # modified from importWaterML2 function of package dataRetrieval version 2.6.3
-  asDateTime <- TRUE
-  raw <- FALSE
   if (class(obs_url) == "character" && file.exists(obs_url)) {
     returnedDoc <- read_xml(obs_url)
   } else if(class(obs_url) == 'raw') {
