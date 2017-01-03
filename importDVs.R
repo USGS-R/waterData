@@ -173,8 +173,6 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
     df <- cbind.data.frame(staid = useIdents, val = values, dates = time, 
                            qualcode = tvpQuals, stringsAsFactors = FALSE)
 
-    return(df)url
-    }
     return(df)
   }
   
