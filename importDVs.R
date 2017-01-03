@@ -4,8 +4,8 @@
 #' This function will import data from a WaterML1 service (current USGS 
 #' hydrological data standard).  It will retrieve daily streamflow and 
 #' continuous water-quality data from the USGS Daily Values Site Web 
-#' Service \url{http://waterservices.usgs.gov/rest/DV-Service.html}
-#' (U.S. Geological Survey, 2012d).
+#' Service \url{https://waterservices.usgs.gov/rest/DV-Service.html}
+#' (U.S. Geological Survey, 2017d).
 #'
 #' @name importDVs
 #' @title Imports daily USGS hydrologic times series data
@@ -13,12 +13,12 @@
 #' usually eight digits long, but can be longer.  Users may search for 
 #' surface-water sites and obtain station identification numbers using the 
 #' USGS Site Web Service, 
-#' \url{http://waterservices.usgs.gov/rest/Site-Service.html} (USGS, 2012e); 
+#' \url{https://waterservices.usgs.gov/rest/Site-Service.html} (USGS, 2017e); 
 #' using the National Water Information System: Mapper, 
-#' \url{http://wdr.water.usgs.gov/nwisgmap/} (U.S. Geological Survey, 2012a); 
+#' \url{https://maps.waterdata.usgs.gov/mapper/index.html} (U.S. Geological Survey, 2017a); 
 #' or using the National Water Information System: Web Interface to daily 
 #' surface-water data, 
-#' \url{http://waterdata.usgs.gov/nwis/dv/?referred_module=sw} 
+#' \url{https://waterdata.usgs.gov/nwis/dv/?referred_module=sw} 
 #' (U.S. Geological Survey, 2012f).  The site identification number needs to 
 #' be entered as a character, that is in quotes, because many USGS 
 #' streamgage numbers begin with zero and the leading zero is necessary.
@@ -26,14 +26,14 @@
 #' used in the USGS computerized data system, National Water 
 #' Information System (NWIS), to uniquely identify a specific hydrologic 
 #' property or constituent.  A list of paramater codes is available at 
-#' \url{http://nwis.waterdata.usgs.gov/usa/nwis/pmcodes} (U.S. Geological Survey, 2012b).
+#' \url{https://nwis.waterdata.usgs.gov/usa/nwis/pmcodes} (U.S. Geological Survey, 2017b).
 #' @param stat is the USGS statistics code, a 5-digit number 
 #' used in the USGS computerized data system, National Water 
 #' Information System (NWIS), to uniquely identify specific statistics, such
 #' as daily mean, daily maximum, and daily minimum.  The default,  
 #' 00003,  is the mean daily value.  A list of statistics codes is available at 
-#' \url{http://nwis.waterdata.usgs.gov/nwis/help/?read_file=stat&format=table} 
-#' (U.S. Geological Survey, 2012c).
+#' \url{https://nwis.waterdata.usgs.gov/nwis/help/?read_file=stat&format=table} 
+#' (U.S. Geological Survey, 2017c).
 #' Not all statistics are available at every gage.
 #' @param sdate is the start date of the time series, in the format 
 #' yyyy-mm-dd, optional.
@@ -44,30 +44,30 @@
 #' parameter code, code, and the statistics code, stat, are attributes of the
 #' data frame.
 #' @references 
-#' U.S. Geological Survey, 2012a, National Water Information System: Mapper, 
-#' accessed September 7, 2012, at 
-#' \url{http://wdr.water.usgs.gov/nwisgmap/}.
+#' U.S. Geological Survey, 2017a, National Water Information System: Mapper, 
+#' accessed January 3, 2017, at 
+#' \url{https://maps.waterdata.usgs.gov/mapper/index.html}.
 #' 
-#' U.S. Geological Survey, 2012b, Parameter code definition, 
-#' National Water Information System: Web Interface, accessed September 7, 
-#' 2012, at \url{http://nwis.waterdata.usgs.gov/usa/nwis/pmcodes}.
+#' U.S. Geological Survey, 2017b, Parameter code definition, 
+#' National Water Information System: Web Interface, accessed January 3, 
+#' 2017, at \url{https://nwis.waterdata.usgs.gov/usa/nwis/pmcodes}.
 #' 
-#' U.S. Geological Survey, 2012c, Stat codes (stat_cd), 
-#' National Water Information System: Web Interface, accessed September 7, 
-#' 2012, at 
-#' \url{http://nwis.waterdata.usgs.gov/nwis/help/?read_file=stat&format=table}.
+#' U.S. Geological Survey, 2017c, Stat codes (stat_cd), 
+#' National Water Information System: Web Interface, accessed January 3, 
+#' 2017, at 
+#' \url{https://nwis.waterdata.usgs.gov/nwis/help/?read_file=stat&format=table}.
 #' 
-#' U.S. Geological Survey, 2012d, USGS daily values site web service: 
-#' REST Web Services, accessed September 7, 2012, at 
-#' \url{http://waterservices.usgs.gov/rest/DV-Service.html}.
+#' U.S. Geological Survey, 2017d, USGS daily values site web service: 
+#' REST Web Services, accessed January 3, 2017, at 
+#' \url{https://waterservices.usgs.gov/rest/DV-Service.html}.
 #' 
-#' U.S. Geological Survey, 2012e, USGS site web service: 
-#' REST Web Services, accessed September 7, 2012, at 
-#' \url{http://waterservices.usgs.gov/rest/Site-Service.html}.
+#' U.S. Geological Survey, 2017e, USGS site web service: 
+#' REST Web Services, accessed January 3, 2017, at 
+#' \url{https://waterservices.usgs.gov/rest/Site-Service.html}.
 #' 
-#' U.S. Geological Survey, 2012f, USGS surface-water daily data for the Nation: 
-#' National Water Information System: Web Interface, accessed September 7, 
-#' 2012, at \url{http://waterdata.usgs.gov/nwis/dv/?referred_module=sw}.
+#' U.S. Geological Survey, 2017f, USGS surface-water daily data for the Nation: 
+#' National Water Information System: Web Interface, accessed January 3, 
+#' 2017, at \url{http://waterdata.usgs.gov/nwis/dv/?referred_module=sw}.
 #' @keywords ts IO
 #' @export
 #' @format The returned data frame has the following columns \cr
@@ -337,54 +337,54 @@ plotParam<-function(data, logscale=FALSE, metric=FALSE, ylabel=NULL, ...) {
 #' is usually eight digits long, but can be longer.  Users may search for 
 #' surface-water sites and obtain station identification numbers using the 
 #' USGS Site Web Service, 
-#' \url{http://waterservices.usgs.gov/rest/Site-Service.html} (U.S. Geological 
-#' Survey, 2012d); using the National Water Information System: Mapper, 
-#' \url{http://wdr.water.usgs.gov/nwisgmap/} (U.S. Geological Survey, 2012a); 
+#' \url{https://waterservices.usgs.gov/rest/Site-Service.html} (U.S. Geological 
+#' Survey, 2017d); using the National Water Information System: Mapper, 
+#' \url{https://maps.waterdata.usgs.gov/mapper/index.html} (U.S. Geological Survey, 2017a); 
 #' or using the National Water Information System: Web Interface to daily 
 #' surface-water data, 
-#' \url{http://waterdata.usgs.gov/nwis/dv/?referred_module=sw} (U.S. 
-#' Geological Survey, 2012e).  The site identification number needs to be 
+#' \url{https://waterdata.usgs.gov/nwis/dv/?referred_module=sw} (U.S. 
+#' Geological Survey, 2017e).  The site identification number needs to be 
 #' entered as a character, that is in quotes, because many USGS streamgage 
 #' numbers begin with zero and the leading zero is necessary.
 #' @param code is the USGS parameter code, a 5-digit number 
 #' used in the USGS computerized data system, National Water 
 #' Information System (NWIS), to uniquely identify a specific hydrologic 
 #' property or constituent.  A list of paramater codes is available at 
-#' \url{http://nwis.waterdata.usgs.gov/usa/nwis/pmcodes} (U.S. Geological 
-#' Survey, 2012b).
+#' \url{https://nwis.waterdata.usgs.gov/usa/nwis/pmcodes} (U.S. Geological 
+#' Survey, 2017b).
 #' @param stat is the USGS statistics code, a 5-digit number 
 #' used in the USGS computerized data system, NWIS, to uniquely identify 
 #' specific statistics, such as daily mean, daily maximum, and daily minimum.  
 #' The default,  00003,  is the mean daily value.  A list of statistics codes 
 #' is available at 
-#' \url{http://nwis.waterdata.usgs.gov/nwis/help/?read_file=stat&format=table} 
-#' (U.S. Geological Survey, 2012c).
+#' \url{https://nwis.waterdata.usgs.gov/nwis/help/?read_file=stat&format=table} 
+#' (U.S. Geological Survey, 2017c).
 #' Not all statistics are available at every gage.
 #' @param sdate is the start date of the time series, in the format yyyy-mm-dd.
 #' @param edate is the end date of the time series, in the format yyyy-mm-dd.
 #' @keywords utilities
 #' @export
 #' @references
-#' U.S. Geological Survey, 2012a, National Water Information System: Mapper, 
-#' accessed September 7, 2012, at 
-#' \url{http://wdr.water.usgs.gov/nwisgmap/}.
+#' U.S. Geological Survey, 2017a, National Water Information System: Mapper, 
+#' accessed January 3, 2017, at 
+#' \url{https://maps.waterdata.usgs.gov/mapper/index.html}.
 #' 
-#' U.S. Geological Survey, 2012b, Parameter code definition, 
-#' National Water Information System: Web Interface, accessed September 7, 
-#' 2012, at \url{http://nwis.waterdata.usgs.gov/usa/nwis/pmcodes}.
+#' U.S. Geological Survey, 2017b, Parameter code definition, 
+#' National Water Information System: Web Interface, accessed January 3, 
+#' 2017, at \url{https://nwis.waterdata.usgs.gov/usa/nwis/pmcodes}.
 #' 
-#' U.S. Geological Survey, 2012c, Stat codes (stat_cd), 
-#' National Water Information System: Web Interface, accessed September 7, 
-#' 2012, at 
-#' \url{http://nwis.waterdata.usgs.gov/nwis/help/?read_file=stat&format=table}.
+#' U.S. Geological Survey, 2017c, Stat codes (stat_cd), 
+#' National Water Information System: Web Interface, accessed January 3, 
+#' 2017, at 
+#' \url{https://nwis.waterdata.usgs.gov/nwis/help/?read_file=stat&format=table}.
 #' 
-#' U.S. Geological Survey, 2012d, USGS site web service: 
-#' REST Web Services, accessed September 7, 2012, at 
-#' \url{http://waterservices.usgs.gov/rest/Site-Service.html}.
+#' U.S. Geological Survey, 2017d, USGS site web service: 
+#' REST Web Services, accessed January 3, 2017, at 
+#' \url{https://waterservices.usgs.gov/rest/Site-Service.html}.
 #' 
-#' U.S. Geological Survey, 2012e, USGS surface-water daily data for the Nation: 
-#' National Water Information System: Web Interface, accessed September 7, 
-#' 2012, at \url{http://waterdata.usgs.gov/nwis/dv/?referred_module=sw}.
+#' U.S. Geological Survey, 2017e, USGS surface-water daily data for the Nation: 
+#' National Water Information System: Web Interface, accessed January 3, 
+#' 2017, at \url{http://waterdata.usgs.gov/nwis/dv/?referred_module=sw}.
 #' @return URL for USGS data
 #' @examples 
 #' tellMeURL("05054000", code="00060", stat="00003", sdate="2000-01-01", 
@@ -410,28 +410,28 @@ tellMeURL <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
 #' identification number(s).  USGS site numbers are usually eight digits long, 
 #' but can be longer.  Users may search for surface-water sites and obtain 
 #' station identification numbers using the USGS Site Web Service, 
-#' \url{http://waterservices.usgs.gov/rest/Site-Service.html} (U.S. Geological 
-#' Survey, 2012b); using the National Water Information System: Mapper, 
-#' \url{http://wdr.water.usgs.gov/nwisgmap/} (U.S. Geological Survey, 2012a); 
+#' \url{https://waterservices.usgs.gov/rest/Site-Service.html} (U.S. Geological 
+#' Survey, 2017b); using the National Water Information System: Mapper, 
+#' \url{https://maps.waterdata.usgs.gov/mapper/index.html} (U.S. Geological Survey, 2017a); 
 #' or using the National Water Information System: Web Interface to daily 
 #' surface-water data, 
-#' \url{http://waterdata.usgs.gov/nwis/dv/?referred_module=sw} (U.S. 
-#' Geological Survey, 2012c).  The site identification number needs to be 
+#' \url{https://waterdata.usgs.gov/nwis/dv/?referred_module=sw} (U.S. 
+#' Geological Survey, 2017c).  The site identification number needs to be 
 #' entered as a character, that is in quotes, because many USGS streamgage 
 #' numbers begin with zero and the leading zero is necessary.
 #' @keywords datagen
 #' @references
-#' U.S. Geological Survey, 2012a, National Water Information System: Mapper, 
-#' accessed September 7, 2012, at 
-#' \url{http://wdr.water.usgs.gov/nwisgmap/}.
+#' U.S. Geological Survey, 2017a, National Water Information System: Mapper, 
+#' accessed January 3, 2017, at 
+#' \url{https://maps.waterdata.usgs.gov/mapper/index.html}.
 #' 
-#' U.S. Geological Survey, 2012b, USGS site web service: 
-#' REST Web Services, accessed September 7, 2012, at 
-#' \url{http://waterservices.usgs.gov/rest/Site-Service.html}.
+#' U.S. Geological Survey, 2017b, USGS site web service: 
+#' REST Web Services, accessed January 3, 2017, at 
+#' \url{https://waterservices.usgs.gov/rest/Site-Service.html}.
 #' 
-#' U.S. Geological Survey, 2012c, USGS surface-water daily data for the Nation: 
-#' National Water Information System: Web Interface, accessed September 7, 
-#' 2012, at \url{http://waterdata.usgs.gov/nwis/dv/?referred_module=sw}.
+#' U.S. Geological Survey, 2017c, USGS surface-water daily data for the Nation: 
+#' National Water Information System: Web Interface, accessed January 3, 2017, 
+#' at \url{https://waterdata.usgs.gov/nwis/dv/?referred_module=sw}.
 #' @export
 #' @return a data frame containing the station identification number(s), the 
 #' USGS streamgage name(s), the decimal latitude(s), and decimal longitude(s).
@@ -500,30 +500,30 @@ siteInfo<-function(staid) {
 #' is usually eight digits long, but can be longer.  Users may search for 
 #' surface-water sites and obtain station identification numbers using the 
 #' USGS Site Web Service, 
-#' \url{http://waterservices.usgs.gov/rest/Site-Service.html} (U.S. Geological 
-#' Survey, 2012b); using the National Water Information System: Mapper, 
-#' \url{http://wdr.water.usgs.gov/nwisgmap/} (U.S. Geological Survey, 2012a); 
+#' \url{https://waterservices.usgs.gov/rest/Site-Service.html} (U.S. Geological 
+#' Survey, 2017b); using the National Water Information System: Mapper, 
+#' \url{https://maps.waterdata.usgs.gov/mapper/index.html} (U.S. Geological Survey, 2017a); 
 #' or using the National Water Information System: Web Interface to daily 
 #' surface-water data, 
-#' \url{http://waterdata.usgs.gov/nwis/dv/?referred_module=sw} (U.S. 
-#' Geological Survey, 2012c).  The site identification number needs to be 
+#' \url{https://waterdata.usgs.gov/nwis/dv/?referred_module=sw} (U.S. 
+#' Geological Survey, 2017c).  The site identification number needs to be 
 #' entered as a character, that is in quotes, because many USGS streamgage 
 #' numbers begin with zero and the leading zero is necessary.
 #' @keywords utilities
 #' @return URL for USGS site information
 #' @export
 #' @references
-#' U.S. Geological Survey, 2012a, National Water Information System: Mapper, 
-#' accessed September 7, 2012, at 
-#' \url{http://wdr.water.usgs.gov/nwisgmap/}.
+#' U.S. Geological Survey, 2017a, National Water Information System: Mapper, 
+#' accessed January 3, 2017, at 
+#' \url{https://maps.waterdata.usgs.gov/mapper/index.html}.
 #' 
-#' U.S. Geological Survey, 2012b, USGS site web service: 
-#' REST Web Services, accessed September 7, 2012, at 
-#' \url{http://waterservices.usgs.gov/rest/Site-Service.html}.
+#' U.S. Geological Survey, 2017b, USGS site web service: 
+#' REST Web Services, accessed January 3, 2017, at 
+#' \url{https://waterservices.usgs.gov/rest/Site-Service.html}.
 #' 
-#' U.S. Geological Survey, 2012c, USGS surface-water daily data for the Nation: 
-#' National Water Information System: Web Interface, accessed September 7, 
-#' 2012, at \url{http://waterdata.usgs.gov/nwis/dv/?referred_module=sw}.
+#' U.S. Geological Survey, 2017c, USGS surface-water daily data for the Nation: 
+#' National Water Information System: Web Interface, accessed January 3, 2017, 
+#' at \url{https://waterdata.usgs.gov/nwis/dv/?referred_module=sw}.
 #' @examples 
 #' tellMeSiteURL("05054000")
 tellMeSiteURL <- function(staid) {
