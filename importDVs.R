@@ -75,6 +75,7 @@
 #' @importFrom xml2 xml_text
 #' @importFrom xml2 xml_attr
 #' @importFrom lubridate parse_date_time
+#' @importFrom dataRetrieval getWebServiceData
 #' @format The returned data frame has the following columns \cr
 #' \tabular{lll}{
 #' Name \tab Type \tab Description \cr 
