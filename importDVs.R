@@ -162,7 +162,7 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
   return(df)
 }
 
-    #' Function to plot hydrologic times series.  
+#' Function to plot hydrologic times series.  
 #' Will plot more than one site at a time.
 #'
 #' @name plotParam
@@ -181,6 +181,8 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
 #' @param ... further arguments to be passed to plotting method (see \link{par}). 
 #' (see \link{xyplot}).
 #' @return a lattice plot 
+#' @importFrom lattice xyplot
+#' @importFrom latticeExtra yscale.components.log10ticks
 #' @export
 #' @examples 
 #' data(exampleWaterData)
