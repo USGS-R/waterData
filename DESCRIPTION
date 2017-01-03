@@ -9,7 +9,7 @@ Type: Package
 LazyLoad: yes
 Description: This package imports U.S. Geological Survey (USGS) daily hydrologic data from USGS web services, plots the data, addresses some common data problems, and calculates and plots anomalies.    
 Depends: R (>= 3.3.0)
-Imports: lattice, latticeExtra, XML, xml2, lubridate
+Imports: lattice, latticeExtra, XML, xml2, lubridate, dataRetrieval
 Suggests: xtable, maps, mapdata
 URL:  https://pubs.usgs.gov/of/2012/1168/
 Collate:
