@@ -69,7 +69,12 @@
 #' National Water Information System: Web Interface, accessed January 3, 
 #' 2017, at \url{http://waterdata.usgs.gov/nwis/dv/?referred_module=sw}.
 #' @keywords ts IO
-#' @export
+#' @importFrom xml2 read_xml
+#' @importFrom xml2 xml_find_all
+#' @importFrom xml2 xml_find_first
+#' @importFrom xml2 xml_text
+#' @importFrom xml2 xml_attr
+#' @importFrom lubridate parse_date_time
 #' @format The returned data frame has the following columns \cr
 #' \tabular{lll}{
 #' Name \tab Type \tab Description \cr 
@@ -107,60 +112,94 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
   url <- paste(base_url, "site=", staid, "&parameterCd=", code, "&statCd=", 
                stat, sep = "")
   url <- paste(url, "&startDt=", sdate, "&endDt=", edate, sep="")
-  doc <- xmlTreeParse(url, getDTD = FALSE, useInternalNodes=TRUE)
-  # Get everything in the main (root) element:
-  r <- xmlRoot(doc)
-  # Put all the measured values in a vector
-  i <- 1
-  val <- vector(mode="numeric", length=1)
-  while (xmlName(r[[2]][[3]][[i]])=="value") {
-    val[i] <- as.numeric(xmlValue(r[[2]][[3]][[i]]))
-	  i <- i + 1
+  
+  # modified from importWaterML2 function of package dataRetrieval version 2.6.3
+  asDateTime <- TRUE
+  raw <- FALSE
+  if (class(url) == "character" && file.exists(url)) {
+    returnedDoc <- read_xml(url)
+  } else if(class(url) == 'raw') {
+    returnedDoc <- read_xml(url)
+    raw <- TRUE
+  } else {
+    returnedDoc <- xml_root(getWebServiceData(url, encoding = 'gzip'))
   }
+  
+  timeSeries <- xml_find_all(returnedDoc, "//wml2:Collection") #each parameter/site combo
+  
+  if (0 == length(timeSeries)) {
+    df <- data.frame()
+    if (!raw) {
+      attr(df, "url") <-   # modified from importWaterML2 function of package dataRetrieval version 2.6.3
+  asDateTime <- TRUE
+  raw <- FALSE
+  if (class(obs_url) == "character" && file.exists(obs_url)) {
+    returnedDoc <- read_xml(obs_url)
+  } else if(class(obs_url) == 'raw') {
+    returnedDoc <- read_xml(obs_url)
+    raw <- TRUE
+  } else {
+    returnedDoc <- xml_root(getWebServiceData(obs_url, encoding = 'gzip'))
+  }
+  
+  timeSeries <- xml_find_all(returnedDoc, "//wml2:Collection") #each parameter/site combo
+  
+  if (0 == length(timeSeries)) {
+    df <- data.frame()
+    if (!raw) {
+      attr(df, "url") <- obs_url
+    }
+    return(df)
+  }
+  
+  mergedDF <- NULL
+  
+    TVP <- xml_find_all(timeSeries, ".//wml2:MeasurementTVP") #time-value pairs
+    time <- xml_text(xml_find_all(TVP, ".//wml2:time"))
 
-  # Put all of the attributes in a Attribute list (there are 2 attributes, 
-  # qualifiers and dateTime)
-  Attribute <- xmlApply(r[[2]][[3]], xmlAttrs)
- 
-  # Get the number of data values
-  N <- length(val)
+    if (asDateTime) {
+      time <- parse_date_time(time, c("%Y","%Y-%m-%d","%Y-%m-%dT%H:%M","%Y-%m-%dT%H:%M:%S",
+                                      "%Y-%m-%dT%H:%M:%OS","%Y-%m-%dT%H:%M:%OS%z"), 
+                              exact = TRUE)
+    }
+    values <- as.numeric(xml_text(xml_find_all(TVP, ".//wml2:value")))
 
-  # Get the default NoDataValue
-  NoDataValue <- xmlValue(r[["timeSeries"]][["variable"]][["NoDataValue"]])
-  NoDataValue <- as.integer(NoDataValue)
-  dates <- vector(mode="character", length=1)
-  qualcode <- vector(mode="character", length=1)
-  if ( N > 1 ) { 
-  for (z in 1:N) {
-	  dates[z] <- as.character(strsplit(Attribute[z][[1]][[2]], "T")[[1]][1])
-    qualcode[z] <- Attribute[z][[1]][[1]]
+    idents <- xml_text(xml_find_all(t, ".//gml:identifier"))
+    idents <- strsplit(idents, "[.]")[[1]][2]
+    useIdents <- rep(idents, length(values))
+
+    tvpQuals <- xml_text(xml_find_first(TVP, ".//swe:value"))
+
+    df <- cbind.data.frame(staid = useIdents, val = values, dates = time, 
+                           qualcode = tvpQuals, stringsAsFactors = FALSE)
+
+    return(df)url
+    }
+    return(df)
   }
-  dates <- as.Date(dates, "%Y-%m-%d")
-  df <- data.frame(staid, val, dates, qualcode)
-  beginDate <- df$dates[1]
-  endDate <- df$dates[dim(df)[[1]]]
-  myDates <- as.data.frame(seq.Date(beginDate, endDate, by=1))
-  dimnames(myDates)[[2]][1]<-"dates"
-  ndays<-dim(myDates)[1]
-  nobs<-dim(df)[1]
-  if ( nobs < ndays ) {
-    sitedat<-df
-    fixedData<-merge(myDates, sitedat, all.x=TRUE)
-    fixedData$staid<-sitedat$staid[1]
-    fixedData<-fixedData[,c("staid", "val", "dates", "qualcode")]
-    df<-fixedData 
+  
+  mergedDF <- NULL
+  
+  TVP <- xml_find_all(timeSeries, ".//wml2:MeasurementTVP") #time-value pairs
+  time <- xml_text(xml_find_all(TVP, ".//wml2:time"))
+
+  if (asDateTime) {
+    time <- parse_date_time(time, c("%Y","%Y-%m-%d","%Y-%m-%dT%H:%M","%Y-%m-%dT%H:%M:%S",
+                                    "%Y-%m-%dT%H:%M:%OS","%Y-%m-%dT%H:%M:%OS%z"), 
+                            exact = TRUE)
   }
-  } 
-  else { 
-    df <- data.frame(staid=character(0), val=numeric(0), dates=character(0), 
-                     qualcode=character(0)) 
-    my.message<-paste("No data returned for site", staid, "parameter code", code, 
-                      "statistics code", stat, sdate, "to", edate, sep=" ")
-    message(my.message)
-  }
-  attributes(df)$code<-code
-  attributes(df)$stat<-stat
-  df
+  values <- as.numeric(xml_text(xml_find_all(TVP, ".//wml2:value")))
+
+  idents <- xml_text(xml_find_all(t, ".//gml:identifier"))
+  idents <- strsplit(idents, "[.]")[[1]][2]
+  useIdents <- rep(idents, length(values))
+
+  tvpQuals <- xml_text(xml_find_first(TVP, ".//swe:value"))
+  
+  df <- cbind.data.frame(staid = useIdents, val = values, dates = time, 
+                         qualcode = tvpQuals, stringsAsFactors = FALSE)
+
+  return(df)
 }
 
 #' Function to plot hydrologic times series.  
