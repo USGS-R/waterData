@@ -72,7 +72,7 @@
 #' 
 #' R Development Core Team, 2012, R---A language and environment for statistical
 #' computing: Vienna, Austria, R Foundation for Statistical Computing, [ISBN
-#' 3-900051-07-0].  (Also available at \url{http://www.R-project.org/}.)
+#' 3-900051-07-0].  (Also available at \url{https://www.r-project.org}.)
 fillMiss <- function(dataset, block=30, pmiss=40, model="trend", 
                      smooth=TRUE, ... ) {
   pck<-is.na(dataset$val)
