@@ -76,6 +76,7 @@
 #' @importFrom xml2 xml_attr
 #' @importFrom lubridate parse_date_time
 #' @importFrom dataRetrieval getWebServiceData
+#' @export
 #' @format The returned data frame has the following columns \cr
 #' \tabular{lll}{
 #' Name \tab Type \tab Description \cr 
@@ -109,16 +110,15 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
                       edate=as.Date(Sys.Date(), format="%Y-%m-%d")) {
   if (is.character(staid) == FALSE ) stop("staid needs to have quotes around it")
   if (nchar(staid) < 8) stop ("staid must be at least 8 characters")
-  base_url <- "https://waterservices.usgs.gov/nwis/dv?"
-  url <- paste(base_url, "site=", staid, "&parameterCd=", code, "&statCd=", 
+  base_url <- "https://waterservices.usgs.gov/nwis/dv/?format=waterml,2.0"
+  url <- paste(base_url, "&site=", staid, "&parameterCd=", code, "&statCd=", 
                stat, sep = "")
   url <- paste(url, "&startDt=", sdate, "&endDt=", edate, sep="")
   
   # modified from importWaterML2 function of package dataRetrieval version 2.6.3
   asDateTime <- TRUE
   raw <- FALSE
-  if (class(
-    _url) == "character" && file.exists(url)) {
+  if (class(url) == "character" && file.exists(url)) {
     returnedDoc <- read_xml(url)
   } else if(class(url) == 'raw') {
     returnedDoc <- read_xml(url)
@@ -137,8 +137,6 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
     return(df)
   }
   
-  mergedDF <- NULL
-  
   TVP <- xml_find_all(timeSeries, ".//wml2:MeasurementTVP") #time-value pairs
   time <- xml_text(xml_find_all(TVP, ".//wml2:time"))
 
@@ -150,7 +148,7 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
   
   values <- as.numeric(xml_text(xml_find_all(TVP, ".//wml2:value")))
 
-  idents <- xml_text(xml_find_all(t, ".//gml:identifier"))
+  idents <- xml_text(xml_find_all(timeSeries, ".//gml:identifier"))
   idents <- strsplit(idents, "[.]")[[1]][2]
   useIdents <- rep(idents, length(values))
 
@@ -394,8 +392,8 @@ tellMeURL <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
                       edate=as.Date(Sys.Date(), format="%Y-%m-%d")) {
   if (is.character(staid) == FALSE ) stop("staid needs to have quotes around it")
   if (nchar(staid) < 8) stop ("staid must be at least 8 characters")
-  base_url <- "https://waterservices.usgs.gov/nwis/dv?"
-  url <- paste(base_url, "site=", staid, "&parameterCd=", code, "&statCd=", 
+  base_url <- "https://waterservices.usgs.gov/nwis/dv/?format=waterml,2.0"
+  url <- paste(base_url, "&site=", staid, "&parameterCd=", code, "&statCd=", 
                stat, sep = "")
   url <- paste(url, "&startDt=", sdate, sep="")
   url <- paste(url, "&endDt=", edate, sep="")
@@ -433,6 +431,12 @@ tellMeURL <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
 #' U.S. Geological Survey, 2017c, USGS surface-water daily data for the Nation: 
 #' National Water Information System: Web Interface, accessed January 3, 2017, 
 #' at \url{https://waterdata.usgs.gov/nwis/dv/?referred_module=sw}.
+#' @importFrom xml2 read_xml
+#' @importFrom xml2 xml_find_all
+#' @importFrom xml2 xml_root
+#' @importFrom xml2 xml_children
+#' @importFrom xml2 xml_attr
+#' @importFrom dataRetrieval getWebServiceData
 #' @export
 #' @return a data frame containing the station identification number(s), the 
 #' USGS streamgage name(s), the decimal latitude(s), and decimal longitude(s).
@@ -452,44 +456,51 @@ tellMeURL <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
 #' staInfo <- siteInfo(c("05054000", "05082500", "06342500"))
 #' staInfo
 #' # a list with an invalid station identification number
-#' staInfo <- siteInfo(c("05054000", "05082500", "06342501"))
+#' staInfo <- siteInfo(c("05054000", "05082500", "0642501"))
 siteInfo<-function(staid) {
-  staname <- vector(mode="character", length=0)
-  lat <- vector(mode="numeric", length=0)
-  lng <- vector(mode="numeric", length=0)
-  for ( i in 1:length(staid) ) {
+  # modified from whatNWISsites function of package dataRetrieval version 2.6.3
+  retVal <- NULL
+  for (i in 1:length(staid)) {
     if (is.character(staid[i]) == FALSE ) stop("staid needs to have quotes 
                                                around it")
     if (nchar(staid[i]) < 8) stop ("staid must be at least 8 characters")
+    
     base_url <-"https://waterservices.usgs.gov/nwis/site?format=mapper&sites="
-    url <- paste(base_url,staid[i],
+    url <- paste(base_url, staid[i],
                  "&siteOutput=expanded&seriesCatalogOutput=true&outputDataTypeCd=all", 
                  sep = "")
-    my.er<- FALSE
-    doc <- try(xmlTreeParse(url, getDTD = FALSE, useInternalNodes=TRUE), 
-               silent=TRUE)
-    if ( class(doc)[1]=="try-error") {
-      message("Unable to retrieve XML for site ", staid[i], ". Check site id.")
-      staname[i] <- "Unable to retrieve"
-      lat[i] <- ""
-      lng[i] <- ""
-      next
+    
+    if (class(url) == "character" && file.exists(url)) {
+      returnedDoc <- read_xml(url)
+    } else if(class(url) == 'raw') {
+      returnedDoc <- read_xml(url)
+      raw <- TRUE
+    } else {
+      returnedDoc <- xml_root(getWebServiceData(url, encoding = 'gzip'))
     }
-    else {    
-      # Get everything in the main ('root') element:
-      r <- xmlRoot(doc)
-      r.attrs <- xmlApply(r[[1]], xmlAttrs)
-      staname[i] <- r.attrs$site["sna"]
-      lat[i] <- r.attrs$site["lat"]
-      lng[i] <- r.attrs$site["lng"]
+    
+    siteDat <- xml_find_all(returnedDoc, "//site") # each parameter/site combo
+
+    doc <- xml_root(siteDat)
+    siteCategories <- xml_children(doc)
+  
+    for (sc in siteCategories) {
+      sites <- xml_children(sc)
+      singlestaid <- xml_attr(sites, "sno")
+      staname <- xml_attr(sites, "sna")
+      lat <- as.numeric(xml_attr(sites, "lat"))
+      lng <- as.numeric(xml_attr(sites, "lng"))
+
+      df <- data.frame(staid=singlestaid, staname, lat, lng, stringsAsFactors = FALSE) 
+      
+      if (is.null(retVal)) {
+        retVal <- df
+      } else {
+        retVal <- rbind.data.frame(retVal, df)
+      }
     }
   }
-  df <- data.frame(cbind(staid=staid, staname=staname, lat=lat, lng=lng), 
-                   stringsAsFactors=FALSE)
-  df$staname <- as.character(df$staname)
-  df$lat <- as.numeric(lat)
-  df$lng <- as.numeric(lng)
-  df
+  retVal
 }
 
 #' Function that returns USGS Site Information Service URL for troubleshooting or 
@@ -531,7 +542,7 @@ tellMeSiteURL <- function(staid) {
 if (is.character(staid) == FALSE ) stop("Station number needs to have quotes around it")
   if (nchar(staid) < 8) stop ("Station number must be at least 8 characters")
   base_url <-"https://waterservices.usgs.gov/nwis/site?format=mapper&sites="
-  url <- paste(base_url,staid,
+  url <- paste(base_url, staid[i],
                "&siteOutput=expanded&seriesCatalogOutput=true&outputDataTypeCd=all", 
                sep = "")
   url
