@@ -1,4 +1,4 @@
-#' An R package for retrieval, analysis, and anomaly calculation of daily 
+#' Retrieval, analysis, and anomaly calculation of daily 
 #' hydrologic time deries data.
 #'
 #' This package imports U.S. Geological Survey (USGS) daily hydrologic data 
