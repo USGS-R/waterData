@@ -166,7 +166,7 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
 #'
 #' @name plotParam
 #' @title Plot Streamflow and Continous Water-Quality Data
-#' @param data is the data frame in the foramt of that returned by 
+#' @param data is the data frame in the format of that returned by 
 #' \link{importDVs}.
 #' @param metric USGS streamflow data are usually in cubic feet per second;   
 #' however it may be converted to cubic meters per second for publication.  
@@ -543,7 +543,7 @@ tellMeSiteURL <- function(staid) {
 if (is.character(staid) == FALSE ) stop("Station number needs to have quotes around it")
   if (nchar(staid) < 8) stop ("Station number must be at least 8 characters")
   base_url <-"https://waterservices.usgs.gov/nwis/site?format=mapper&sites="
-  url <- paste(base_url, staid[i],
+  url <- paste(base_url, staid,
                "&siteOutput=expanded&seriesCatalogOutput=true&outputDataTypeCd=all", 
                sep = "")
   url
