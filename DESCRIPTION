@@ -8,7 +8,7 @@ License: Unlimited | file LICENSE
 Type: Package
 LazyLoad: yes
 Description: Imports U.S. Geological Survey (USGS) daily hydrologic data from USGS web services (see <https://waterservices.usgs.gov/> for more information), plots the data, addresses some common data problems, and calculates and plots anomalies.    
-Depends: R (>= 3.2.0)
+Depends: R (>= 3.2.6)
 Imports: lattice, latticeExtra, xml2, lubridate, dataRetrieval
 Suggests: xtable, maps, mapdata
 URL:  https://pubs.usgs.gov/of/2012/1168/
