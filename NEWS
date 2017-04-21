@@ -1,5 +1,9 @@
 Version 1.0.6
 *************
+Minor bug fixes.
+
+Version 1.0.6
+*************
 Removed XML from imports as it is no longer used.
 
 Version 1.0.5
