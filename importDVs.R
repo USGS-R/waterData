@@ -156,6 +156,26 @@ importDVs <- function(staid, code="00060", stat="00003", sdate="1851-01-01",
 
   df <- cbind.data.frame(staid = useIdents, val = values, dates = time, 
                            qualcode = tvpQuals, stringsAsFactors = FALSE)
+  
+  # retrieval does not create a series with the days for which there are missing
+  # values
+  # this code will create the days with missing values to have a complete
+  # time series
+  df$dates <- as.Date(df$dates)
+  beginDate <- df$dates[1]
+  endDate <- df$dates[dim(df)[[1]]]
+  myDates <- as.data.frame(seq.Date(beginDate, endDate, by=1))
+  dimnames(myDates)[[2]][1] <- "dates"
+  ndays <- dim(myDates)[1]
+  nobs <- dim(df)[1]
+  if ( nobs < ndays ) {
+    sitedat <- df
+    fixedData <- merge(myDates, sitedat, all.x=TRUE)
+    fixedData$staid <- sitedat$staid[1]
+    fixedData <- fixedData[,c("staid", "val", "dates", "qualcode")]
+    df <- fixedData 
+  }
+  
   attributes(df)$code<-code
   attributes(df)$stat<-stat
   return(df)
