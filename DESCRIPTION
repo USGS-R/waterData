@@ -1,6 +1,6 @@
 Package: waterData
-Version: 1.0.7
-Date: 2017-04-21
+Version: 1.0.8
+Date: 2017-04-28
 Title: Retrieval, Analysis, and Anomaly Calculation of Daily Hydrologic Time Series Data
 Author: Karen R. Ryberg and Aldo V. Vecchia
 Maintainer: Karen R. Ryberg <kryberg@usgs.gov>
